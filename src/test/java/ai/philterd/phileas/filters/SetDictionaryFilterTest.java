@@ -236,4 +236,43 @@ public class SetDictionaryFilterTest extends AbstractFilterTest {
 
     }
 
+    @Test
+    public void filterDictionaryIgnoredIsCaseInsensitive() throws Exception {
+
+        final FilterConfiguration filterConfiguration = new FilterConfiguration.FilterConfigurationBuilder()
+                .withStrategies(List.of(new CustomDictionaryFilterStrategy()))
+                .withIgnored(Set.of("Son"))
+                .withWindowSize(windowSize)
+                .build();
+
+        final Set<String> names = new HashSet<>(Arrays.asList("son", "bill"));
+        final SetDictionaryFilter filter = new SetDictionaryFilter(FilterType.CUSTOM_DICTIONARY, filterConfiguration, names, "none");
+
+        final Filtered filtered = filter.filter(contextService, getPolicy(), "context", PIECE, "Bill is my Son.");
+
+        Assertions.assertEquals(2, filtered.getSpans().size());
+        Assertions.assertFalse(filtered.getSpans().get(0).isIgnored());
+        Assertions.assertTrue(filtered.getSpans().get(1).isIgnored());
+
+    }
+
+    @Test
+    public void filterDictionaryRequireCapitalization() throws Exception {
+
+        final FilterConfiguration filterConfiguration = new FilterConfiguration.FilterConfigurationBuilder()
+                .withStrategies(List.of(new CustomDictionaryFilterStrategy()))
+                .withWindowSize(windowSize)
+                .build();
+
+        final Set<String> names = new HashSet<>(Arrays.asList("will", "grant"));
+        final SetDictionaryFilter filter = new SetDictionaryFilter(FilterType.CUSTOM_DICTIONARY, filterConfiguration, names, "none");
+        filter.setRequireCapitalization(true);
+
+        final Filtered filtered = filter.filter(contextService, getPolicy(), "context", PIECE, "Grant will sign the grant.");
+
+        Assertions.assertEquals(1, filtered.getSpans().size());
+        Assertions.assertEquals("Grant", filtered.getSpans().get(0).getText());
+
+    }
+
 }

@@ -1194,9 +1194,12 @@ public class FilterPolicyLoader {
 
         }
 
-        return CollectionUtils.isNotEmpty(terms)
+        final SetDictionaryFilter filter = CollectionUtils.isNotEmpty(terms)
                 ? new SetDictionaryFilter(filterType, filterConfiguration, new LinkedHashSet<>(terms), null)
                 : new SetDictionaryFilter(filterType, filterConfiguration);
+        filter.setRequireCapitalization(capitalized);
+
+        return filter;
 
     }
 

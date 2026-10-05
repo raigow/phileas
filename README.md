@@ -195,6 +195,17 @@ final BinaryDocumentFilterResult result = filterService.filter(
         policy, "context", document, MimeType.APPLICATION_PDF);
 ```
 
+### Redacting a tax return
+
+`scripts/redact-tax-return.sh` removes names, SSNs, EINs, addresses, phone numbers, bank account numbers and other
+identifying information from a PDF tax return:
+
+```
+scripts/redact-tax-return.sh my-return.pdf my-return-redacted.pdf --name "First Last" --name "Spouse Name"
+```
+
+See [Redacting a Tax Return](docs/docs/other_features/tax_return_redaction.md) for what it covers and its limits.
+
 ## Usage Examples
 
 The [EndToEndTests](https://github.com/philterd/phileas/blob/main/src/test/java/ai/philterd/phileas/services/EndToEndTests.java) and [EndToEndTestsHelper](https://github.com/philterd/phileas/blob/main/src/test/java/ai/philterd/phileas/services/EndToEndTestsHelper.java) test classes show how to configure Phileas, build policies, and filter text and PDFs.
