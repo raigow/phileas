@@ -49,13 +49,13 @@ public class PdfTextExtractor extends PDFTextStripper implements TextExtractor {
         final PDDocument pdDocument = Loader.loadPDF(document);
 
         this.setSortByPosition(true);
-        this.setStartPage(0);
 
         for(int i = 0; i < pdDocument.getNumberOfPages(); i++) {
 
             pageNumber = i;
 
-            this.setStartPage(i);
+            // PDFTextStripper pages are 1-based and inclusive, so this extracts exactly page i.
+            this.setStartPage(i + 1);
             this.setEndPage(i + 1);
 
             final Writer dummy = new OutputStreamWriter(new ByteArrayOutputStream());

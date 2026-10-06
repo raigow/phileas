@@ -45,6 +45,7 @@ public class SetDictionaryFilter extends DictionaryFilter {
 
     private final Set<String> lowerCaseTerms;
     private int maxNgramSize = 0;
+    private boolean requireCapitalization = false;
 
     /**
      * Creates a new set-based dictionary filter whose terms are loaded from the dictionary file
@@ -96,6 +97,14 @@ public class SetDictionaryFilter extends DictionaryFilter {
 
     }
 
+    /**
+     * Sets whether a match must start with an uppercase letter in the text to be identified.
+     * @param requireCapitalization <code>true</code> to only match capitalized terms.
+     */
+    public void setRequireCapitalization(final boolean requireCapitalization) {
+        this.requireCapitalization = requireCapitalization;
+    }
+
     @Override
     public Filtered filter(final ContextService contextService, final Policy policy, final String context, final int piece, final String text) throws Exception {
 
@@ -128,6 +137,10 @@ public class SetDictionaryFilter extends DictionaryFilter {
                 }
             }
 
+            if (matched && requireCapitalization && !Character.isUpperCase(ngram.charAt(begin))) {
+                matched = false;
+            }
+
             if (matched) {
 
                 final int characterStart = position.getStart() + begin;
@@ -137,7 +150,7 @@ public class SetDictionaryFilter extends DictionaryFilter {
                 final String originalToken = text.substring(characterStart, characterEnd);
 
                 // Set the meta values for the span.
-                final boolean isIgnored = ignored.contains(originalToken);
+                final boolean isIgnored = isIgnored(originalToken);
                 final double confidence = 1.0;
                 final String[] window = getWindow(text, characterStart, characterEnd);
 

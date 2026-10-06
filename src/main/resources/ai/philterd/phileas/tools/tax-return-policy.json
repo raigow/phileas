@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "description": "Redacts personal identifying information from US tax returns."
+  },
+  "ignoredPatterns": [
+    {
+      "name": "dollar-amounts",
+      "pattern": "\\$?\\d{1,3}(,\\d{3})*(\\.\\d{2})?|\\$?\\d+\\.\\d{2}"
+    }
+  ],
+  "identifiers": {
+    "ssn": {},
+    "ein": {},
+    "phoneNumber": {},
+    "emailAddress": {},
+    "streetAddress": {},
+    "zipCode": {},
+    "date": {},
+    "bankRoutingNumber": {},
+    "creditCard": {},
+    "firstName": {
+      "capitalized": true,
+      "ignored": ["Son", "EIN", "Head", "Single", "Will", "Grant", "Child", "Social", "Security", "Form", "Schedule",
+        "Line", "Total", "Tax", "Income", "Wages", "Federal", "State", "Credit", "Earned", "Standard", "Interest",
+        "Married", "Spouse", "Sign", "Here", "Joint", "Return", "Paid", "Firm", "Phone", "Date", "Daughter"]
+    },
+    "surname": {
+      "capitalized": true,
+      "ignored": ["Son", "EIN", "Head", "Single", "Will", "Grant", "Child", "Social", "Security", "Form", "Schedule",
+        "Line", "Total", "Tax", "Income", "Wages", "Federal", "State", "Credit", "Earned", "Standard", "Interest",
+        "Married", "Spouse", "Sign", "Here", "Joint", "Return", "Paid", "Firm", "Phone", "Date", "Daughter"]
+    },
+    "identifiers": [
+      {
+        "classification": "account-number-or-pin",
+        "pattern": "\\b\\d{6,17}\\b"
+      },
+      {
+        "classification": "ptin",
+        "pattern": "\\bP\\d{8}\\b"
+      }
+    ]
+  },
+  "config": {
+    "pdf": {
+      "dpi": 200,
+      "scale": 1
+    }
+  }
+}

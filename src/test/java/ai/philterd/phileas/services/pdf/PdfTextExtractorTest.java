@@ -44,7 +44,9 @@ public class PdfTextExtractorTest {
             LOGGER.info("{} page number = {}", pdfLine, pdfLine.getPageNumber());
         }
 
-        Assertions.assertEquals(417, lines.size());
+        // Each page is read exactly once (previously every page after the first was read twice).
+        Assertions.assertEquals(215, lines.size());
+        Assertions.assertEquals(1, lines.stream().filter(l -> l.getText().contains("IF YOU FAIL TO RESPOND TO THIS SUMMONS")).count());
 
     }
 

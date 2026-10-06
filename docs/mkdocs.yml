@@ -25,6 +25,7 @@ nav:
   - 'Other Features':
     - 'Anonymization': 'other_features/anonymization.md'
     - 'Span Disambiguation': 'other_features/span_disambiguation.md'
+    - 'Redacting a Tax Return': 'other_features/tax_return_redaction.md'
   - Settings: settings.md
 extra:
   version:
